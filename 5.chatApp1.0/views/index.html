@@ -5,10 +5,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
+    <header>
+        <h1 class="logo">Chat App</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/contactus">Contact us</a></li>
 
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <form id="message-form">
+            <input type="text" id="enteredMessage" />
+            <button>send</button>
+        </form>
+
+        <div class="chatBox">
+            <h1>Group chat</h1>
+            <div>Messages</div>
+            <div id="messages"></div>
+        </div>
+    </main>
+
+
+    <script>
+        const username = localStorage.getItem('username')
+        if (!username) {
+            window.location.href = '/login'
+        }
+        async function loadMessage() {
+            const res = await fetch('/messages');
+            const messages = await res.json();
+
+            const messageDiv = document.getElementById('messages')
+            messageDiv.innerHTML = ""
+
+            messages.forEach(msg => {
+                const messageELement = document.createElement('div');
+                messageELement.innerHTML = `<span>${msg.username}</span> ${msg.message}`;
+                messageELement.classList.add('message')
+                messageDiv.appendChild(messageELement)
+            })
+        }
+
+        document.getElementById('message-form').addEventListener('submit', async (e) => {
+            e.preventDefault()
+
+            const message = document.getElementById('enteredMessage').value;
+
+            if (message) {
+                await fetch('/send-message', {
+                    method: 'POST',
+                    body: JSON.stringify({ username, message }),
+                    headers: { 'Content-Type': 'application/json' }
+
+                })
+                document.getElementById('enteredMessage').value = ""
+                loadMessage()
+            }
+        })
+
+        loadMessage()
+    </script>
 </body>
 
 </html>

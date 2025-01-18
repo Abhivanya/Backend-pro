@@ -5,14 +5,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-    <form action="/" method="POST">
+    <header>
+        <h1 class="logo">Chat App</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/contactus">Contact us</a></li>
+
+            </ul>
+        </nav>
+    </header>
+    <form id="login-form">
         <label for="username">Username</label>
-        <input type="text" name="username" id="">
+        <input type="text" name="username" id="username">
         <button>Login</button>
     </form>
+    <script>
+        document.getElementById('login-form').addEventListener('submit', (e) => {
+            e.preventDefault()
+
+            const username = document.getElementById('username').value;
+
+            if (username) {
+                localStorage.setItem('username', username)
+                window.location.href = '/'
+            }
+        })
+    </script>
 </body>
 
 </html>
