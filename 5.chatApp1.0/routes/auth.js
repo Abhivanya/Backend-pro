@@ -1,12 +1,9 @@
-const fs = require("fs");
-const path = require("path");
+const authController = require("../controllers/auth");
 
 const express = require("express");
 
 const router = express.Router();
 
-router.get("/login", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "views", "login.html"));
-});
+router.get("/login", authController.login);
 
 module.exports = router;
