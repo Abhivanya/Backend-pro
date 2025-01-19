@@ -46,27 +46,28 @@ exports.addMessage = (req, res) => {
 };
 
 exports.homePage = (req, res) => {
-  const { username, message } = req.body;
+  res.sendFile(path.join(__dirname, "..", "views", "index.html"));
+  // const { username, message } = req.body;
 
-  if (!username || !message) {
-    return res.status(400).json({ error: "Username and message are required" });
-  }
+  // if (!username || !message) {
+  //   return res.status(400).json({ error: "Username and message are required" });
+  // }
 
-  fs.readFile(path.join(__dirname, "message.json"), "utf-8", (err, data) => {
-    const messages = err ? [] : JSON.parse(data || "[]");
+  // fs.readFile(path.join(__dirname, "message.json"), "utf-8", (err, data) => {
+  //   const messages = err ? [] : JSON.parse(data || "[]");
 
-    messages.push({ username, message });
+  //   messages.push({ username, message });
 
-    fs.writeFile(
-      path.join(__dirname, "message.json"),
-      JSON.stringify(messages, null, 2),
-      (err) => {
-        if (err) {
-          return res.status(500).json({ error: "Failed to save message" });
-        }
+  //   fs.writeFile(
+  //     path.join(__dirname, "message.json"),
+  //     JSON.stringify(messages, null, 2),
+  //     (err) => {
+  //       if (err) {
+  //         return res.status(500).json({ error: "Failed to save message" });
+  //       }
 
-        res.status(200).json({ success: true });
-      }
-    );
-  });
+  //       res.status(200).json({ success: true });
+  //     }
+  //   );
+  // });
 };
