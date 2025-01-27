@@ -2,8 +2,8 @@ const Product = require("../models/product");
 const Cart = require("../models/cart");
 
 exports.getProducts = (req, res, next) => {
-  Product.fetchAll()
-    .then(([rows, fileData]) => {
+  Product.findAll()
+    .then((products) => {
       res.render("shop/product-list", {
         prods: rows,
         pageTitle: "All Products",
@@ -14,8 +14,8 @@ exports.getProducts = (req, res, next) => {
 };
 
 exports.getIndex = (req, res, next) => {
-  Product.fetchAll()
-    .then(([products, fileData]) => {
+  Product.findAll()
+    .then((products) => {
       res.render("shop/index", {
         prods: products,
         pageTitle: "Shop",
@@ -48,13 +48,14 @@ exports.getCheckout = (req, res, next) => {
 
 exports.getProduct = (req, res, next) => {
   const proId = req.params.productId;
-  Product.findById(proId, (product) => {
+  Product.findById(proId);
+  then(([product]) => {
     res.render("shop/product-detail", {
       path: "/products",
-      pageTitle: product.title,
-      product: product,
+      pageTitle: product[0].title,
+      product: product[0],
     });
-  });
+  }).catch((err) => console.log(err));
 };
 
 exports.postCart = (req, res, next) => {
