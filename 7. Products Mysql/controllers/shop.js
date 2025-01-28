@@ -49,11 +49,11 @@ exports.getCheckout = (req, res, next) => {
 exports.getProduct = (req, res, next) => {
   const proId = req.params.productId;
   Product.findById(proId);
-  then(([product]) => {
+  then((product) => {
     res.render("shop/product-detail", {
       path: "/products",
-      pageTitle: product[0].title,
-      product: product[0],
+      pageTitle: product.title,
+      product: product,
     });
   }).catch((err) => console.log(err));
 };
